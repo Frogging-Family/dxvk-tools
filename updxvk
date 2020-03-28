@@ -354,11 +354,11 @@ if [ "$1" == "proton-tkg" ]; then
 
       source "$ROOT/DXVKBUILD/$DXVK_BRANCH/last-HEAD"
 
-      rm -rf ../proton-tkg/dxvk
-      mkdir -p ../proton-tkg/dxvk/x64
-      mkdir -p ../proton-tkg/dxvk/x32
-      cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x64/* ../proton-tkg/dxvk/x64
-      cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x32/* ../proton-tkg/dxvk/x32
+      rm -rf ../wine-tkg-git/proton-tkg/dxvk
+      mkdir -p ../wine-tkg-git/proton-tkg/dxvk/x64
+      mkdir -p ../wine-tkg-git/proton-tkg/dxvk/x32
+      cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x64/* ../wine-tkg-git/proton-tkg/dxvk/x64
+      cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x32/* ../wine-tkg-git/proton-tkg/dxvk/x32
 
       echo ""
       echo "###############################################################"
