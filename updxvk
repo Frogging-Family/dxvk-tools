@@ -42,7 +42,7 @@ EOM
 
 source updxvk.cfg
 
-ROOT=$PWD
+ROOT="$PWD"
 
 # Use custom compiler paths if defined
 if [ -n "${CUSTOM_MINGW_PATH}" ]; then
