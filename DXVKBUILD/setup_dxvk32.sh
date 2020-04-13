@@ -88,6 +88,7 @@ else
     fi
 fi
 unix_sys_path="$($wine winepath -u 'C:\windows\system32')"
+unix_sys_path="${unix_sys_path/$'\r'/}"
 if [ $? -ne 0 ]; then
     exit 1
 fi
