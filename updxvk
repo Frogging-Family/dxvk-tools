@@ -42,6 +42,11 @@ EOM
 
 source updxvk.cfg
 
+# Load external configuration file if present. Available variable values will overwrite updxvk.cfg ones.
+if [ -e "$_EXT_CONFIG_PATH" ]; then
+  source "$_EXT_CONFIG_PATH" && msg2 "External configuration file $_EXT_CONFIG_PATH will be used to override updxvk.cfg values.\n"
+fi
+
 ROOT="$PWD"
 
 # Use custom compiler paths if defined
