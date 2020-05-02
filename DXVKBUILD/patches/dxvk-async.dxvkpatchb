@@ -22,15 +22,6 @@ diff --git a/src/dxvk/dxvk_context.cpp b/src/dxvk/dxvk_context.cpp
 index b4f679fa..13c86d8f 100644
 --- a/src/dxvk/dxvk_context.cpp
 +++ b/src/dxvk/dxvk_context.cpp
-@@ -606,7 +606,7 @@ namespace dxvk {
-     const Rc<DxvkImageView>&    imageView,
-           VkImageAspectFlags    clearAspects,
-           VkClearValue          clearValue) {
--    this->updateFramebuffer();
-+    this->updateFramebuffer(false);
- 
-     // Prepare attachment ops
-     DxvkColorAttachmentOps colorOp;
 @@ -2433,7 +2433,7 @@ namespace dxvk {
            VkExtent3D            extent,
            VkImageAspectFlags    aspect,
