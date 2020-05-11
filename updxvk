@@ -10,6 +10,8 @@
 
 # LUTRIS UPDATE WITH : ./updxvk lutris - (Put 'TkG' as DXVK version in lutris afterwards to use your fresh build)
 
+# PROTON UPDATE WITH : ./updxvk proton-dist - Requires _proton_dist_path to be set in updxvk.cfg
+
 # PROTON-TKG READY WITH : ./updxvk proton-tkg
 
 # FOR BOTH UPDATE AND BATCH UPDATE : optional - build number of the build you want to install
@@ -365,6 +367,33 @@ if [ "$1" == "proton-tkg" ]; then
       mkdir -p ../wine-tkg-git/proton-tkg/dxvk/x32
       cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x64/* ../wine-tkg-git/proton-tkg/dxvk/x64
       cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x32/* ../wine-tkg-git/proton-tkg/dxvk/x32
+
+      echo ""
+      echo "###############################################################"
+      echo ""
+      echo "This DXVK build will be integrated to your next Proton-tkg build"
+      echo ""
+      echo "###############################################################"
+
+    fi
+
+fi
+
+# Proton-tkg
+if [ "$1" == "proton-dist" ] && [ -n "$_proton_dist_path" ]; then
+
+  wineserver -k
+
+    if [ ! -f ./DXVKBUILD/"$DXVK_BRANCH"/last-HEAD ]; then
+
+      echo "You need to build before you can update ! Run updxvk build first"
+
+    else
+
+      source "$ROOT/DXVKBUILD/$DXVK_BRANCH/last-HEAD"
+
+      \cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x64/* "$_proton_dist_path"/lib64/wine/dxvk
+      \cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x32/* "$_proton_dist_path"/lib/wine/dxvk
 
       echo ""
       echo "###############################################################"
