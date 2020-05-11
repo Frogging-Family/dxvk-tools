@@ -398,7 +398,7 @@ if [ "$1" == "proton-dist" ] && [ -n "$_proton_dist_path" ]; then
       echo ""
       echo "###############################################################"
       echo ""
-      echo "This DXVK build will be integrated to your next Proton-tkg build"
+      echo "This DXVK build will be used by the proton build in $_proton_dist_path"
       echo ""
       echo "###############################################################"
 
