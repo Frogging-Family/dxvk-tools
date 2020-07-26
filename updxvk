@@ -286,11 +286,11 @@ if [ -n "$1" ] && [ "$1" != "batch" ] && [ "$1" != "build" ] && [ "$1" != "lutri
     if [ "$2" == "vulkansdk" ]; then
       WINEARCH="$WINEARCH" WINEPREFIX="$WINEPREFIX" "$WINECMD" regedit /S "$ROOT/DXVKBUILD/vulkansdk/vulkan.reg"
 
-      if [ ! -f "$ROOT/DXVKBUILD/vulkansdk/VulkanSDK-1.1.77.0-Installer.exe" ]; then
-        wget https://sdk.lunarg.com/sdk/download/1.1.77.0/windows/VulkanSDK-1.1.77.0-Installer.exe?Human=true -O "$ROOT/DXVKBUILD/vulkansdk/VulkanSDK-1.1.77.0-Installer.exe"
+      if [ ! -f "$ROOT/DXVKBUILD/vulkansdk/VulkanSDK-1.1.130.0-Installer.exe" ]; then
+        wget https://sdk.lunarg.com/sdk/download/1.1.130.0/windows/VulkanSDK-1.1.130.0-Installer.exe?Human=true -O "$ROOT/DXVKBUILD/vulkansdk/VulkanSDK-1.1.130.0-Installer.exe"
       fi
 
-      WINEARCH="$WINEARCH" WINEPREFIX="$WINEPREFIX" "$WINECMD" "$ROOT/DXVKBUILD/vulkansdk/VulkanSDK-1.1.77.0-Installer.exe /S"
+      WINEARCH="$WINEARCH" WINEPREFIX="$WINEPREFIX" "$WINECMD" "$ROOT/DXVKBUILD/vulkansdk/VulkanSDK-1.1.130.0-Installer.exe /S"
       cp "$ROOT/DXVKBUILD/vulkansdk/winevulkan.json" "$WINEPREFIX/drive_c/windows/winevulkan.json"
       echo "Vulkan SDK installation completed."
     fi
