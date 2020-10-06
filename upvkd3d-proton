@@ -1,0 +1,256 @@
+#!/bin/bash
+
+# TkGlitch's vkd3d-proton Updater - ti3nou@gmail.com
+
+# BUILD HEAD OF THE CHOSEN BRANCH WITH : ./upvkd3d-proton build - (Edit VKD3D_BRANCH to point to the branch you want)
+
+# LUTRIS UPDATE WITH : ./upvkd3d-proton lutris - (Put 'TkG' as VKD3D-PROTON version in lutris afterwards to use your fresh build)
+
+# PROTON UPDATE WITH : ./upvkd3d-proton proton-dist - Requires _proton_dist_path to be set in upvkd3d-proton.cfg
+
+# Putting patch files in VKD3D_PROTONBUILD/patches will auto-apply them if the extension is .vkd3dpatch, auto-revert them if the extension is .vkd3drevert, or ignore them if any other extension (or none) is used
+
+cat << 'EOM'
+       .---.`               `.---.
+    `/syhhhyso-           -osyhhhys/`
+   .syNMdhNNhss/``.---.``/sshNNhdMNys.
+   +sdMh.`+MNsssssssssssssssNM+`.hMds+
+   :syNNdhNNhssssssssssssssshNNhdNNys:
+    /ssyhhhysssssssssssssssssyhhhyss/
+    .ossssssssssssssssssssssssssssso.
+   :sssssssssssssssssssssssssssssssss:
+  /sssssssssssssssssssssssssssssssssss/
+ :sssssssssssssoosssssssoosssssssssssss:
+ osssssssssssssoosssssssoossssssssssssso
+ osssssssssssyyyyhhhhhhhyyyyssssssssssso
+ /yyyyyyhhdmmmmNNNNNNNNNNNmmmmdhhyyyyyy/
+  smmmNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmmms
+   /dNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNd/
+    `:sdNNNNNNNNNNNNNNNNNNNNNNNNNds:`
+       `-+shdNNNNNNNNNNNNNNNdhs+-`
+             `.-:///////:-.`
+
+EOM
+
+source upvkd3d-proton.cfg
+
+# Load external configuration file if present. Available variable values will overwrite upvkd3d-proton.cfg ones.
+if [ -e "$_EXT_CONFIG_PATH" ]; then
+  source "$_EXT_CONFIG_PATH" && echo -e "External configuration file $_EXT_CONFIG_PATH will be used to override upvkd3d-proton.cfg values.\n"
+fi
+
+ROOT="$PWD"
+
+# Use custom compiler paths if defined
+if [ -n "${CUSTOM_MINGW_PATH}" ]; then
+  PATH=${CUSTOM_MINGW_PATH}/bin:${CUSTOM_MINGW_PATH}/lib:${CUSTOM_MINGW_PATH}/include:${PATH}
+fi
+if [ -n "${CUSTOM_GCC_PATH}" ]; then
+  PATH=${CUSTOM_GCC_PATH}/bin:${CUSTOM_GCC_PATH}/lib:${CUSTOM_GCC_PATH}/include:${PATH}
+fi
+
+_exit_cleanup() {
+  rm -rf "$ROOT/VKD3D_PROTONBUILD/vkd3d-proton-$VKD3D_PROTON_BRANCH"
+  echo -e "\nexit cleanup done"
+}
+
+build() {
+mkdir -p VKD3D_PROTONBUILD
+mkdir -p VKD3D_PROTONBUILD/patches
+
+if [ "$DIRTYIN" != "2" ]; then
+  if [ -e "vkd3d-proton-$VKD3D_PROTON_BRANCH.vkd3ddirty" ] || [ "$DIRTYIN" == "1" ]; then
+  rm -R -f vkd3d-proton-"$VKD3D_PROTON_BRANCH"
+  echo "#################"
+  echo ""
+  echo "YOUR TREE WAS CONSIDERED DIRTY AND HAS BEEN CLEARED"
+  echo ""
+  echo "#################"
+  rm "$VKD3D_PROTON_BRANCH".vkd3ddirty
+  fi
+else
+  echo "#################"
+  echo ""
+  echo "YOU DIRTY BOI.."
+  echo ""
+  echo "#################"
+fi
+
+mkdir vkd3d-proton-"$VKD3D_PROTON_BRANCH"
+
+cd vkd3d-proton-"$VKD3D_PROTON_BRANCH"
+
+if [ ! -e package-release.sh ]; then
+  git init .
+  git remote add -t \* -f origin https://github.com/HansKristian-Work/vkd3d-proton
+  git checkout "$VKD3D_PROTON_BRANCH"
+fi
+
+if [ "$VKD3D_PROTON_AUTOUPDATE" == "1" ]; then
+  git pull
+fi
+
+if [ -n "$VKD3D_PROTON_COMMIT" ] && [ "$CUSTOM_COMMIT" == "1" ]; then
+  git checkout "$VKD3D_PROTON_COMMIT"
+fi
+
+git submodule update --init --recursive
+
+GIT_HEAD=$(git rev-parse HEAD)-`date '+%Y-%m-%d-%H:%M:%S'`
+
+if [ "$_nativeopt" == "true" ]; then
+  mv ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatchb ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatch 2>/dev/null
+else
+  mv ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatch ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatchb 2>/dev/null
+fi
+
+# Community patches
+if [ -n "$_community_patches" ]; then
+  _community_patches=($_community_patches)
+  for _p in ${_community_patches[@]}; do
+   ln -s $ROOT/../community-patches/vkd3d-proton/$_p $ROOT/VKD3D_PROTONBUILD/patches/
+  done
+fi
+
+if [ "$PATCHIN" == "1" ]; then
+  for F in ../VKD3D_PROTONBUILD/patches/*.vkd3drevert; do
+    if [ -e "${F}" ]; then
+      echo "#################"
+      echo ""
+      echo "REVERTING PATCH ${F}"
+      echo ""
+      echo "#################"
+      patch -Np1 -R < ${F} && echo "This means that branch $VKD3D_PROTON_BRANCH was altered by patching and will be cleared next time you build" >> ../"$VKD3D_PROTON_BRANCH".vkd3ddirty || exit 1
+    else
+      echo "#################"
+      echo ""
+      echo "NO REVERT PATCH DETECTED - MOVING ON"
+      echo ""
+      echo "#################"
+    fi
+  done
+  for F in ../VKD3D_PROTONBUILD/patches/*.vkd3dpatch; do
+    if [ -e "${F}" ]; then
+      echo "#################"
+      echo ""
+      echo "APPLYING PATCH ${F}"
+      echo ""
+      echo "#################"
+      patch -Np1 < ${F} && echo "This means that branch $VKD3D_PROTON_BRANCH was altered by patching and will be cleared next time you build" >> ../"$VKD3D_PROTON_BRANCH".vkd3ddirty || exit 1
+    else
+      echo "#################"
+      echo ""
+      echo "NO PATCH DETECTED - MOVING ON"
+      echo ""
+      echo "#################"
+    fi
+  done
+fi
+
+# Community patches cleanup
+if [ -n $_community_patches ]; then
+  for _p in ${_community_patches[@]}; do
+   rm -f $ROOT/VKD3D_PROTONBUILD/patches/${_p}
+  done
+fi
+
+if pacman -Qq ccache &> /dev/null; then
+  echo 'ccache was found and will be used'
+  sed -i "s|c = 'i686-w64-mingw32-gcc'|c = ['ccache', 'i686-w64-mingw32-gcc']|g" build-win32.txt
+  sed -i "s|c = 'x86_64-w64-mingw32-gcc'|c = ['ccache', 'x86_64-w64-mingw32-gcc']|g" build-win64.txt
+  sed -i "s|cpp = 'i686-w64-mingw32-g++'|cpp = ['ccache', 'i686-w64-mingw32-g++']|g" build-win32.txt
+  sed -i "s|cpp = 'x86_64-w64-mingw32-g++'|cpp = ['ccache', 'x86_64-w64-mingw32-g++']|g" build-win64.txt
+else
+  echo ""
+  echo 'ccache was not found and will not be used'
+fi
+
+echo "#################"
+echo ""
+echo "BUILDING"
+echo ""
+echo "#################"
+./package-release.sh "$VKD3D_PROTON_BRANCH" ../VKD3D_PROTONBUILD --no-package
+
+if [ -d ../VKD3D_PROTONBUILD/vkd3d-"$VKD3D_PROTON_BRANCH"/x86 ] && [ -d ../VKD3D_PROTONBUILD/vkd3d-"$VKD3D_PROTON_BRANCH"/x64 ]; then
+  mkdir -p ../VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$GIT_HEAD"
+  mv -v -T ../VKD3D_PROTONBUILD/vkd3d-"$VKD3D_PROTON_BRANCH"/x86 ../VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$GIT_HEAD"/x86
+  mv -v -T ../VKD3D_PROTONBUILD/vkd3d-"$VKD3D_PROTON_BRANCH"/x64 ../VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$GIT_HEAD"/x64
+  rm -R -f ../VKD3D_PROTONBUILD/vkd3d-"$VKD3D_PROTON_BRANCH"
+  echo "Your files were built in $ROOT/VKD3D_PROTONBUILD/$VKD3D_PROTON_BRANCH/$GIT_HEAD"
+  rm -f ../VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/last-HEAD
+  echo "CURRENT_HEAD=$GIT_HEAD" >> ../VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/last-HEAD
+  rm -f ../VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/latest
+  ln -s "$GIT_HEAD" "$ROOT"/VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/latest
+else
+  rm -rf ../VKD3D_PROTONBUILD/*-"$VKD3D_PROTON_BRANCH"
+fi
+
+}
+
+# Lutris
+if [ "$1" == "lutris" ]; then
+
+  wineserver -k
+
+    if [ ! -f ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH/"last-HEAD ]; then
+
+      echo "You need to build before you can update ! Run upvkd3d-proton build first"
+
+    else
+
+      source "$ROOT/VKD3D_PROTONBUILD/$VKD3D_PROTON_BRANCH/last-HEAD"
+
+      rm -rv "$HOME"/.local/share/lutris/runtime/vkd3d-proton/TkG/x64/*
+      rm -rv "$HOME"/.local/share/lutris/runtime/vkd3d-proton/TkG/x86/*
+      mkdir -p "$HOME"/.local/share/lutris/runtime/vkd3d-proton/TkG/x64
+      mkdir -p "$HOME"/.local/share/lutris/runtime/vkd3d-proton/TkG/x86
+      cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x64/* "$HOME"/.local/share/lutris/runtime/vkd3d-proton/TkG/x64
+      cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x86/* "$HOME"/.local/share/lutris/runtime/vkd3d-proton/TkG/x86
+
+      echo ""
+      echo "###########################################################"
+      echo ""
+      echo "Put 'TkG' as VKD3D_PROTON version in lutris to use your fresh build"
+      echo ""
+      echo "###########################################################"
+
+    fi
+
+fi
+
+# Proton (other)
+if [ "$1" == "proton-dist" ] && [ -n "$_proton_dist_path" ]; then
+
+  wineserver -k
+
+    if [ ! -f ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/last-HEAD ]; then
+
+      echo "You need to build before you can update ! Run upvkd3d-proton build first"
+
+    else
+
+      source "$ROOT/VKD3D_PROTONBUILD/$VKD3D_PROTON_BRANCH/last-HEAD"
+
+      \cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x64/* "$_proton_dist_path"/lib64/wine/vkd3d-proton
+      \cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x86/* "$_proton_dist_path"/lib/wine/vkd3d-proton
+
+      echo ""
+      echo "###############################################################"
+      echo ""
+      echo "This VKD3D_PROTON build will be used by the proton build in $_proton_dist_path"
+      echo ""
+      echo "###############################################################"
+
+    fi
+
+fi
+
+# Build from latest master branch
+if [ "$1" == "build" ]; then
+
+  time build
+
+fi
+
+trap _exit_cleanup EXIT SIGTERM
