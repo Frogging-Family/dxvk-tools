@@ -202,11 +202,11 @@ if [ "$1" == "lutris" ]; then
       source "$ROOT/VKD3D_PROTONBUILD/$VKD3D_PROTON_BRANCH/last-HEAD"
 
       rm -rv "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64/d3d12.dll
-      rm -rv "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x86/d3d12.dll
+      rm -rv "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x32/d3d12.dll
       mkdir -p "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64
-      mkdir -p "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x86
+      mkdir -p "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x32
       cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x64/* "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64
-      cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x86/* "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x86
+      cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x86/* "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x32
 
       echo ""
       echo "###########################################################"
