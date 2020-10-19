@@ -1,4 +1,4 @@
-# DXVK script to build/patch/install/update, Lutris and Proton-tkg compatible.
+# DXVK & vkd3d-proton script to build/patch/install/update, Lutris and Proton-tkg compatible.
 
 ### Requirements:
 - [wine 3.10](https://www.winehq.org/) or newer
@@ -14,6 +14,13 @@ Inside the dxvk-tools directory, run:
 ./updxvk build
 ```
 
+### Building vkd3d-proton DLLs
+
+Inside the dxvk-tools directory, run:
+```
+./upvkd3d-proton build
+```
+
 ### Exporting DXVK DLLs for Proton-tkg
 
 Still inside the dxvk-tools directory, after you ran the command above, run:
@@ -26,3 +33,4 @@ Still inside the dxvk-tools directory, after you ran the command above, run:
 You'll find more details on the various functions (such as installation-related ones) of these scripts right inside them.
 
 # DXVK : https://github.com/doitsujin/dxvk
+# vkd3d-proton : https://github.com/HansKristian-Work/vkd3d-proton
