@@ -15,4 +15,9 @@
 *.files
 */src/
 */pkg/
+dxvk-master/
+vkd3d-proton-master/
 DXVKBUILD/master/
+VKD3D_PROTONBUILD/master/
+*.dxvkdirty
+*.vkd3ddirty
