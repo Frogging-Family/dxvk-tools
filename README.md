@@ -3,7 +3,7 @@
 ### Requirements:
 - [wine 3.10](https://www.winehq.org/) or newer
 - [Meson](http://mesonbuild.com/) build system (at least version 0.43)
-- [MinGW64](http://mingw-w64.org/) 6.0 compiler and headers (I'm providing a script for Arch based distros here: https://github.com/Tk-Glitch/PKGBUILDS/tree/master/mingw - or distro-agnostic here: https://github.com/Tk-Glitch/PKGBUILDS/tree/master/mostlyportable-gcc )
+- [MinGW64](http://mingw-w64.org/) 8.0 compiler and headers (I'm providing a distro-agnostic script to build it here: https://github.com/Frogging-Family/dxvk-tools )
 - [glslang](https://github.com/KhronosGroup/glslang) compile
 - Optional : Installing ccache will greatly improve subsequent compilation times
 
