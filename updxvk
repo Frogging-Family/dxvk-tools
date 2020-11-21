@@ -331,8 +331,8 @@ if [ "$1" == "lutris" ]; then
 
       source "$ROOT/DXVKBUILD/$DXVK_BRANCH/last-HEAD"
 
-      rm -rv "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64/*
-      rm -rv "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x32/*
+      find "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64/ -type f -not -name 'd3d12.dll' -delete
+      find "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x32/ -type f -not -name 'd3d12.dll' -delete
       mkdir -p "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64
       mkdir -p "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x32
       cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x64/* "$HOME"/.local/share/lutris/runtime/dxvk/TkG/x64
