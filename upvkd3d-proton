@@ -113,7 +113,7 @@ if [ -n "$_community_patches" ]; then
 fi
 
 if [ "$PATCHIN" == "1" ]; then
-  for F in ../VKD3D_PROTONBUILD/patches/*.vkd3drevert; do
+  for F in ../VKD3D_PROTONBUILD/patches/*vkd3drevert; do
     if [ -e "${F}" ]; then
       echo "#################"
       echo ""
@@ -129,7 +129,7 @@ if [ "$PATCHIN" == "1" ]; then
       echo "#################"
     fi
   done
-  for F in ../VKD3D_PROTONBUILD/patches/*.vkd3dpatch; do
+  for F in ../VKD3D_PROTONBUILD/patches/*vkd3dpatch; do
     if [ -e "${F}" ]; then
       echo "#################"
       echo ""
