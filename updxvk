@@ -398,6 +398,9 @@ if [ "$1" == "proton-dist" ] && [ -n "$_proton_dist_path" ]; then
 
       source "$ROOT/DXVKBUILD/$DXVK_BRANCH/last-HEAD"
 
+      chmod +w "$_proton_dist_path"/lib64/wine/dxvk/*
+      chmod +w "$_proton_dist_path"/lib/wine/dxvk/*
+
       \cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x64/* "$_proton_dist_path"/lib64/wine/dxvk
       \cp -rv ./DXVKBUILD/"$DXVK_BRANCH"/"$CURRENT_HEAD"/x32/* "$_proton_dist_path"/lib/wine/dxvk
 
