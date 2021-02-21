@@ -233,6 +233,9 @@ if [ "$1" == "proton-dist" ] && [ -n "$_proton_dist_path" ]; then
 
       source "$ROOT/VKD3D_PROTONBUILD/$VKD3D_PROTON_BRANCH/last-HEAD"
 
+      chmod +w "$_proton_dist_path"/lib64/wine/vkd3d-proton/*
+      chmod +w "$_proton_dist_path"/lib/wine/vkd3d-proton/*
+
       \cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x64/* "$_proton_dist_path"/lib64/wine/vkd3d-proton
       \cp -rv ./VKD3D_PROTONBUILD/"$VKD3D_PROTON_BRANCH"/"$CURRENT_HEAD"/x86/* "$_proton_dist_path"/lib/wine/vkd3d-proton
 
