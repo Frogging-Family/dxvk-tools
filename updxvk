@@ -92,7 +92,7 @@ cd dxvk-"$DXVK_BRANCH"
 
 if [ ! -e package-release.sh ]; then
   git init .
-  git remote add -t \* -f origin https://github.com/doitsujin/dxvk.git
+  git remote add -t \* -f origin "$DXVK_REPO"
   git checkout "$DXVK_BRANCH"
 fi
 

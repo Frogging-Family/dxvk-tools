@@ -82,7 +82,7 @@ cd vkd3d-proton-"$VKD3D_PROTON_BRANCH"
 
 if [ ! -e package-release.sh ]; then
   git init .
-  git remote add -t \* -f origin https://github.com/HansKristian-Work/vkd3d-proton
+  git remote add -t \* -f origin "$VKD3D_PROTON_REPO"
   git checkout "$VKD3D_PROTON_BRANCH"
 fi
 
