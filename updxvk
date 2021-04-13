@@ -113,12 +113,6 @@ else
   mv ../DXVKBUILD/patches/dxvk-async.dxvkpatch ../DXVKBUILD/patches/dxvk-async.dxvkpatchb 2>/dev/null
 fi
 
-if [ "$_nativeopt" == "true" ]; then
-  mv ../DXVKBUILD/patches/nativeopt.dxvkpatchb ../DXVKBUILD/patches/nativeopt.dxvkpatch 2>/dev/null
-else
-  mv ../DXVKBUILD/patches/nativeopt.dxvkpatch ../DXVKBUILD/patches/nativeopt.dxvkpatchb 2>/dev/null
-fi
-
 # Community patches
 if [ -n "$_community_patches" ]; then
   _community_patches=($_community_patches)

@@ -98,12 +98,6 @@ git submodule update --init --recursive
 
 GIT_HEAD=$(git rev-parse HEAD)-`date '+%Y-%m-%d-%H:%M:%S'`
 
-if [ "$_nativeopt" == "true" ]; then
-  mv ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatchb ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatch 2>/dev/null
-else
-  mv ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatch ../VKD3D_PROTONBUILD/patches/nativeopt.vkd3dpatchb 2>/dev/null
-fi
-
 # Community patches
 if [ -n "$_community_patches" ]; then
   _community_patches=($_community_patches)
