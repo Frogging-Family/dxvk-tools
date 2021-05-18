@@ -70,7 +70,7 @@ mkdir -p DXVKBUILD/patches
 
 if [ "$DIRTYIN" != "2" ]; then
   if [ -e "dxvk-$DXVK_BRANCH.dxvkdirty" ] || [ "$DIRTYIN" == "1" ]; then
-  rm -R -f dxvk-"$DXVK_BRANCH"
+  ( cd dxvk-"$DXVK_BRANCH" && git reset --hard HEAD && git clean -xdf )
   echo "#################"
   echo ""
   echo "YOUR TREE WAS CONSIDERED DIRTY AND HAS BEEN CLEARED"

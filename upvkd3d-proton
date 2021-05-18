@@ -60,7 +60,7 @@ mkdir -p VKD3D_PROTONBUILD/patches
 
 if [ "$DIRTYIN" != "2" ]; then
   if [ -e "vkd3d-proton-$VKD3D_PROTON_BRANCH.vkd3ddirty" ] || [ "$DIRTYIN" == "1" ]; then
-  rm -R -f vkd3d-proton-"$VKD3D_PROTON_BRANCH"
+  ( cd vkd3d-proton-"$VKD3D_PROTON_BRANCH" && git reset --hard HEAD && git clean -xdf )
   echo "#################"
   echo ""
   echo "YOUR TREE WAS CONSIDERED DIRTY AND HAS BEEN CLEARED"
