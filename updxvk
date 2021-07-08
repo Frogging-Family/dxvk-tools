@@ -359,7 +359,7 @@ if [ "$1" == "proton-tkg" ]; then
       if [ "$_proton_tkg_path" = "proton-tkg" ]; then
         _proton_tkg_path=".."
       else
-        _proton_tkg_path="../wine-tkg-git/proton-tkg/external-ressources"
+        _proton_tkg_path="../wine-tkg-git/proton-tkg/external-resources"
       fi
 
       rm -rf "$_proton_tkg_path"/dxvk
