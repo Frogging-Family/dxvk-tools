@@ -104,6 +104,8 @@ if [ -n "$DXVK_COMMIT" ] && [ "$CUSTOM_COMMIT" == "1" ]; then
   git checkout "$DXVK_COMMIT"
 fi
 
+git submodule update --init --recursive
+
 GIT_HEAD=$(git rev-parse HEAD)-`date '+%Y-%m-%d-%H:%M:%S'`
 
 if [ "$_async" == "true" ]; then
