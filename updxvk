@@ -191,7 +191,9 @@ if [ -d ../DXVKBUILD/dxvk-"$DXVK_BRANCH"/x32 ] && [ -d ../DXVKBUILD/dxvk-"$DXVK_
   cp ../DXVKBUILD/setup_dxvk32.sh ../DXVKBUILD/"$DXVK_BRANCH"/"$GIT_HEAD"/x32/setup_symlink_dxvk.sh
   mv -v -T ../DXVKBUILD/dxvk-"$DXVK_BRANCH"/x64 ../DXVKBUILD/"$DXVK_BRANCH"/"$GIT_HEAD"/x64
   cp ../DXVKBUILD/setup_dxvk64.sh ../DXVKBUILD/"$DXVK_BRANCH"/"$GIT_HEAD"/x64/setup_symlink_dxvk.sh
-  cp ../DXVKBUILD/dxvk-"$DXVK_BRANCH"/setup_dxvk.sh ../DXVKBUILD/"$DXVK_BRANCH"/"$GIT_HEAD"/setup_dxvk.sh
+  if [ -e ../DXVKBUILD/dxvk-"$DXVK_BRANCH"/setup_dxvk.sh ]; then
+    cp ../DXVKBUILD/dxvk-"$DXVK_BRANCH"/setup_dxvk.sh ../DXVKBUILD/"$DXVK_BRANCH"/"$GIT_HEAD"/setup_dxvk.sh
+  fi
   rm -R -f ../DXVKBUILD/dxvk-"$DXVK_BRANCH"
   echo "Your files were built in $ROOT/DXVKBUILD/$DXVK_BRANCH/$GIT_HEAD"
   rm -f ../DXVKBUILD/"$DXVK_BRANCH"/last-HEAD
