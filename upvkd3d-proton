@@ -95,6 +95,7 @@ if [ -n "$VKD3D_PROTON_COMMIT" ] && [ "$CUSTOM_COMMIT" == "1" ]; then
 fi
 
 git submodule update --init --recursive
+( cd subprojects/dxil-spirv && git pull origin master )
 
 GIT_HEAD=$(git rev-parse HEAD)-`date '+%Y-%m-%d-%H:%M:%S'`
 
