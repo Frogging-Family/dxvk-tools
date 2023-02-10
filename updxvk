@@ -108,15 +108,6 @@ git submodule update --init --recursive
 
 GIT_HEAD=$(git rev-parse HEAD)-`date '+%Y-%m-%d-%H:%M:%S'`
 
-if [ "$_async" == "true" ]; then
-  if ! wget -O ../DXVKBUILD/patches/dxvk-async.dxvkpatchb https://raw.githubusercontent.com/Sporif/dxvk-async/master/dxvk-async.patch; then
-    echo -e "\nFailed to download dxvk-async patch. Make sure wget installed." && exit 1
-  fi
-  mv ../DXVKBUILD/patches/dxvk-async.dxvkpatchb ../DXVKBUILD/patches/dxvk-async.dxvkpatch 2>/dev/null
-else
-  mv ../DXVKBUILD/patches/dxvk-async.dxvkpatch ../DXVKBUILD/patches/dxvk-async.dxvkpatchb 2>/dev/null
-fi
-
 # Community patches
 if [ -n "$_community_patches" ]; then
   _community_patches=($_community_patches)
